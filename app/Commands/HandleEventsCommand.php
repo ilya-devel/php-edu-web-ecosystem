@@ -9,6 +9,7 @@ use App\Database\SQLite;
 use App\EventSender\EventSender;
 
 use App\Models\Event;
+use App\Telegram\TelegramApiImpl;
 
 //use App\Models\EventDto;
 
@@ -34,13 +35,13 @@ class HandleEventsCommand extends Command
 
         $events = $event->select();
 
-        $eventSender = new EventSender();
+        $eventSender = new EventSender(new TelegramApiImpl($this->app->env('TELEGRAM_TOKEN')));
 
         foreach ($events as $event) {
 
             if ($this->shouldEventBeRan($event)) {
-
-                $eventSender->sendMessage($event->receiverId, $event->text);
+                // $eventSender->sendMessage($event->receiverId, $event->text);
+                $eventSender->sendMessage($event['receiver_id'], $event['text']);
 
             }
 
@@ -51,25 +52,37 @@ class HandleEventsCommand extends Command
     private function shouldEventBeRan($event): bool
 
     {
-        $currentMinute = date("i");
+        $currentMinute = (int)date("i");
 
-        $currentHour = date("H");
+        $currentHour = (int)date("H");
 
-        $currentDay = date("d");
+        $currentDay = (int)date("d");
 
-        $currentMonth = date("m");
+        $currentMonth = (int)date("m");
 
-        $currentWeekday = date("w");
+        $currentWeekday = (int)date("w");
 
-        return ($event['minute'] === $currentMinute &&
+        // return true;
 
-            $event['hour'] === $currentHour &&
+        // return ($event['minute'] === $currentMinute &&
 
-            $event['day'] === $currentDay &&
+        //     $event['hour'] === $currentHour &&
 
-            $event['month'] === $currentMonth &&
+        //     $event['day'] === $currentDay &&
 
-            $event['weekDay'] === $currentWeekday);
+        //     $event['month'] === $currentMonth &&
+
+        //     $event['weekDay'] === $currentWeekday);
+
+        return (($event['minute'] === $currentMinute || $event['minute'] === null) &&
+
+            ($event['hour'] === $currentHour || $event['hour'] === null) &&
+
+            ($event['day'] === $currentDay || $event['day'] === null) &&
+
+            ($event['month'] === $currentMonth || $event['month'] === null) &&
+
+            ($event['day_of_week'] === $currentWeekday || $event['day_of_week'] === null));
     }
 
 }
