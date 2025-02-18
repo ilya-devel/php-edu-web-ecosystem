@@ -2,6 +2,10 @@
 
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @covers HandleEventsCommand
+ * @group disableDeprecation
+ */
 class HandleEventsCommandTest extends TestCase {
 
     /**

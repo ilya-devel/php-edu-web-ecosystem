@@ -2,6 +2,10 @@
 
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @covers HandleEventsDaemonCommand
+ * @group disableDeprecation
+ */
 class HandleEventsDaemonCommandTest extends TestCase {
     public function testGetCurrentTime(){
         $saveEventCommand = new \App\Commands\HandleEventsDaemonCommand(new \App\Application(dirname(__DIR__)));
