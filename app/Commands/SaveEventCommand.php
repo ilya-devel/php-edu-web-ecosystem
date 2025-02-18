@@ -3,6 +3,7 @@
 namespace App\Commands;
 
 use App\Application;
+use App\Actions\EventSaver;
 use App\Database\SQLite;
 use App\Models\Event;
 
@@ -64,8 +65,11 @@ class SaveEventCommand extends Command
 
         ];
 
-        $this->saveEvent($params);
+        // $this->saveEvent($params);
 
+        $eventModel = new Event(new SQLite($this->app));
+        $eventSaver = new EventSaver($eventModel);
+        $eventSaver->handle($params);
     }
 
     private function getGetoptOptionValues(): array
@@ -150,20 +154,20 @@ class SaveEventCommand extends Command
 
     }
 
-    private function saveEvent(array $params): void
+    // private function saveEvent(array $params): void
 
-    {
+    // {
 
-        $event = new Event(new SQLite($this->app));
+    //     $event = new Event(new SQLite($this->app));
 
-        $event->insert(
+    //     $event->insert(
 
-            implode(', ', array_keys($params)),
+    //         implode(', ', array_keys($params)),
 
-            array_values($params)
+    //         array_values($params)
 
-        );
+    //     );
 
-    }
+    // }
 
 }

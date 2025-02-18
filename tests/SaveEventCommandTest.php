@@ -2,6 +2,10 @@
 
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @covers SaveEventCommand
+ * @group disableDeprecation
+ */
 class SaveEventCommandTest extends TestCase {
 
     /**

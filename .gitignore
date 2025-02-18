@@ -1,5 +1,8 @@
 /vendor
 /.idea
+/.phpunit.cache
+/.vscode
 .env
 cache.txt
 database.sqlite
+log.txt
